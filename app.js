@@ -7,6 +7,8 @@ var settings = JSON.parse(fs.readFileSync("./settings.json"));
 var lookup = new Lookup(settings.currentIP);
 var dns = new DNSimple(settings);
 
+// the update event is fired when there is a mismatch of
+// IP addresses
 lookup.on('update', function(public_ip) {
   writeln("IP address mismatch:");
   writeln("\tCurrent IP: " + settings.currentIP);
@@ -14,10 +16,15 @@ lookup.on('update', function(public_ip) {
   writeln("Updating record...");
   
   dns.update(public_ip);
-}).on('match', function(current_ip, public_id) {
+})
+// the match event is called when the current and the public
+// IP addresses match
+.on('match', function(current_ip, public_id) {
   writeln("IP addresses match.  No need to update.");
 });
 
+// the updated event is raised after the public IP
+// was successfully updated
 dns.on('updated', function(data) {
   writeln("Domain IP updated successfully.");
 
@@ -26,11 +33,13 @@ dns.on('updated', function(data) {
 
   writeln("Updating local settings...");
 
+  // we have to save the new public IP to a local file
+  // so that we can do a comparison on the next run
   fs.writeFile("./settings.json", JSON.stringify(settings), function(err, fd) {
     if(err) throw err;
   });
 
-  writeln("Local settings updated.");
+  writeln("Local settings updated successfully.");
 
 }).on('error', function(e) {
   writeln("Error: " + e);
