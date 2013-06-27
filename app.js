@@ -14,7 +14,7 @@ lookup.on('update', function(public_ip) {
   writeln("\tCurrent IP: " + settings.currentIP);
   writeln("\t Public IP: " + public_ip);
   writeln("Updating record...");
-  
+
   dns.update(public_ip);
 })
 // the match event is called when the current and the public
