@@ -2,6 +2,7 @@
     "currentIP": "0.0.0.0",
     "username": "you@example.com",
     "token": "your api token",
+    "domainToken": "your domain token",
     "domain": "example.com",
     "recordID": "123456"
 }
