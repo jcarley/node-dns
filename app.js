@@ -1,12 +1,14 @@
 var fs = require("fs"),
-    Lookup = require("./lib/lookup"),
-    DNSimple = require("./lib/dnsimple");
+    appPath = require("path").dirname(process.argv[1]),
+    Lookup = require(appPath + "/lib/lookup"),
+    DNSimple = require(appPath + "/lib/dnsimple");
 
-var settings = JSON.parse(fs.readFileSync("./settings.json"));
+var settings = JSON.parse(fs.readFileSync(appPath + "/settings.json"));
 
 var lookup = new Lookup(settings.currentIP);
 var dns = new DNSimple(settings);
 
+writeln("App Directory: " + appPath);
 
 // the update event is fired when there is a mismatch of
 // IP addresses
@@ -50,6 +52,7 @@ dns.on('updated', function(data) {
 
 // Uncomment the below to run continuously
 //  current set to run once an hour
+
 checkIpStatus();
 setInterval(checkIpStatus, settings.checkInterval);
 
