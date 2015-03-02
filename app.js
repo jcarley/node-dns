@@ -7,6 +7,7 @@ var settings = JSON.parse(fs.readFileSync("./settings.json"));
 var lookup = new Lookup(settings.currentIP);
 var dns = new DNSimple(settings);
 
+
 // the update event is fired when there is a mismatch of
 // IP addresses
 lookup.on('update', function(public_ip) {
@@ -45,12 +46,47 @@ dns.on('updated', function(data) {
     writeln("Error: " + e);
 });
 
+//lookup.compare();
+
+// Uncomment the below to run continuously
+//  current set to run once an hour
+checkIpStatus();
+setInterval(checkIpStatus, settings.checkInterval);
+
+function checkIpStatus() {
+    printDate();
+    lookup.compare();
+}
+
 function writeln(str) {
     process.stdout.write(str + "\n");
 }
 
-lookup.compare();
+function printDate() {
+    writeln("//------------------------------------------------------//");
+    writeln("//----------------" + getDateTime() + "-----------------//");
+}
 
-// Uncomment the below to run continuously
-//  current set to run once an hour
-//setInterval(lookup.compare, 10000);
+function getDateTime() {
+
+    var date = new Date();
+
+    var hour = date.getHours();
+    hour = (hour < 10 ? "0" : "") + hour;
+
+    var min = date.getMinutes();
+    min = (min < 10 ? "0" : "") + min;
+
+    var sec = date.getSeconds();
+    sec = (sec < 10 ? "0" : "") + sec;
+
+    var year = date.getFullYear();
+
+    var month = date.getMonth() + 1;
+    month = (month < 10 ? "0" : "") + month;
+
+    var day = date.getDate();
+    day = (day < 10 ? "0" : "") + day;
+
+    return year + "/" + month + "/" + day + " - " + hour + ":" + min + ":" + sec;
+}
