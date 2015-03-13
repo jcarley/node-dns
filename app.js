@@ -38,7 +38,7 @@ dns.on('updated', function(data) {
 
     // we have to save the new public IP to a local file
     // so that we can do a comparison on the next run
-    fs.writeFile("./settings.json", JSON.stringify(settings, undefined, 4), function (err, fd) {
+    fs.writeFile(appPath + "/settings.json", JSON.stringify(settings, undefined, 4), function (err, fd) {
         if (err) throw err;
     });
 
