@@ -3,5 +3,6 @@
     "username": "you@example.com",
     "token": "your api token",
     "domain": "example.com",
-    "recordID": "123456"
+    "recordID": "123456",
+    "checkInterval": "milliseconds to recheck"
 }
