@@ -1,7 +1,7 @@
 {
-    "currentIP": "0.0.0.0",
-    "username": "you@example.com",
-    "token": "your api token",
-    "domain": "example.com",
-    "recordID": "123456"
+    "CURRENT_IP": "1.1.1.1",
+    "ACCOUNT_ID": 123456,
+    "DNS_ZONE_ID": "domain.com",
+    "DNS_RECORD_ID": 123456,
+    "AUTH_TOKEN": "ABCXYZ"
 }
