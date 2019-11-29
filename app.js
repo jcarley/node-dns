@@ -4,14 +4,14 @@ var fs = require("fs"),
 
 var settings = JSON.parse(fs.readFileSync("./settings.json"));
 
-var lookup = new Lookup(settings.currentIP);
+var lookup = new Lookup(settings.CURRENT_IP);
 var dns = new DNSimple(settings);
 
 // the update event is fired when there is a mismatch of
 // IP addresses
 lookup.on('update', function(public_ip) {
   writeln("IP address mismatch:");
-  writeln("\tCurrent IP: " + settings.currentIP);
+  writeln("\tCurrent IP: " + settings.CURRENT_IP);
   writeln("\t Public IP: " + public_ip);
   writeln("Updating record...");
 
@@ -29,7 +29,7 @@ dns.on('updated', function(data) {
   writeln("Domain IP updated successfully.");
 
   var parentRecord = JSON.parse(data);
-  settings.currentIP = parentRecord.record.content;
+  settings.CURRENT_IP = parentRecord.record.content;
 
   writeln("Updating local settings...");
 
